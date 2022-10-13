@@ -48,12 +48,20 @@ function getColor(rate) {
     }
 }
 
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
+function fetchAll() {
+    fetch("https://api.themoviedb.org/3/discover/movie?api_key=401e5ec5b341181243700d1c503387c9")
+    .then(result => result.json()
+    ).then(data => {
+        showMovies(data.results);
+    })
+}
+fetchAll();
 
-    const searchTerm = searchData.value;
-
-    if(searchTerm) {
-        getAllMovie(SEARCH_URL+searchTerm)
-    }
+form.addEventListener('change', (event) => {
+    fetch(`https://api.themoviedb.org/3/search/movie?api_key=401e5ec5b341181243700d1c503387c9&query=${event.target.value}&page=1`)
+    .then(result => result.json()
+    ).then(data => {
+        console.log(data.results);
+        showMovies(data.results)
+    })
 })
